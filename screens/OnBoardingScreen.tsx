@@ -19,6 +19,8 @@ import { onBoardData } from '@/constants/onBoardData';
 import { OnBoardingInterface } from '@/types';
 import { scale, verticalScale } from 'react-native-size-matters';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from 'expo-router';
 
 const { width, height } = Dimensions.get('window');
 const bottomBoxWidth = width * 0.8;
@@ -32,7 +34,7 @@ const OnBoardingScreen = () => {
     );
     setActiveIndex(currentIndex);
   };
-  const handlePressSkip = () => {
+  const handlePressSkip = async () => {
     console.log('yes');
     const nextIndex = activeIndex + 1;
     if (nextIndex < onBoardData.length) {
@@ -43,7 +45,8 @@ const OnBoardingScreen = () => {
       });
       setActiveIndex(nextIndex);
     } else {
-      console.log('last Index');
+      await AsyncStorage.setItem('onBoarding', 'true');
+      router.push('(routes)/home');
     }
   };
   return (
